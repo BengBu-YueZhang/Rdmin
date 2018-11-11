@@ -1,13 +1,12 @@
 import { Map, List } from 'immutable'
 import { currentUser } from '@/services'
 import modelExtend from 'dva-model-extend'
-import CommonListModel from '@/models/CommonList'
 import { setLocalStorage } from '@/util/storage'
 
-export default modelExtend(CommonListModel, {
+export default {
   namespace: 'user',
   state: Map({
-    currentUser: {},
+    currentUser: Map({}),
     list: List([])
   }),
   reducers: {
@@ -17,6 +16,12 @@ export default modelExtend(CommonListModel, {
     },
     currentUserError (state) {
       return state.set('currentUser', {})
+    },
+    listSuccess (state, action) {
+      return state.set('list', action.data)
+    },
+    listError (state) {
+      return state.set('list', [])
     }
   },
   effects: {
@@ -32,4 +37,4 @@ export default modelExtend(CommonListModel, {
       }
     }
   }
-})
+}
