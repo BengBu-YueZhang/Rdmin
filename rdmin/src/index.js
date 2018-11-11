@@ -1,6 +1,8 @@
 import dva from 'dva'
 import '@/assets/reset.scss'
 import '@/assets/common.css'
+import LoginModel from '@/models/Login'
+import SpinModel from '@/models/Spin'
 
 // 1. Initialize
 const app = dva()
@@ -9,10 +11,8 @@ const app = dva()
 // app.use({});
 
 // 3. Model
-app.model(
-  require('@/models/Spin').default,
-  require('@/models/Login').default
-)
+app.model(LoginModel)
+app.model(SpinModel)
 
 // 4. Router
 app.router(require('./router').default)

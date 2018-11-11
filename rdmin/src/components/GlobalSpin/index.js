@@ -1,7 +1,7 @@
 import React from 'react'
 import { Spin } from 'antd'
 import { connect } from 'dva'
-import { getSpin } from '@/selectors/Login'
+import { getSpin } from '@/selectors/Spin'
 import style from '@/components/GlobalSpin/style.scss'
 
 const mapStateToProps = state => {
