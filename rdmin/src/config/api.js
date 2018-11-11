@@ -1,4 +1,5 @@
 // 登录
 export default {
-  login: '/user/login'
+  login: '/user/login',
+  currentUser: '/user/current'
 }

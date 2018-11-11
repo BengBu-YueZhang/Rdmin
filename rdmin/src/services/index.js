@@ -8,3 +8,11 @@ export async function login (params) {
     throw error
   }
 }
+
+export async function currentUser (params) {
+  try {
+    return await axios.get(api.currentUser)
+  } catch (error) {
+    throw error
+  }
+}

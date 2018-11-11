@@ -9,6 +9,18 @@ const Axios = axios.create({
   },
 })
 
+Axios.interceptors.request.use(
+  (config) => {
+    if (isHaveStorage('token')) {
+      config.headers['x-access-token'] = getLocalStorage('token');
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+)
+
 Axios.interceptors.response.use(
   (res) => {
     const data = res.data

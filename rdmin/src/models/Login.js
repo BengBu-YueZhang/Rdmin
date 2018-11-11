@@ -1,7 +1,7 @@
 import { Map } from 'immutable'
 import { login } from '@/services'
 import { routerRedux } from 'dva/router'
-import { setLocalStorage, removeLocalStorage } from '@/util/storage'
+import { setLocalStorage, clearLocalStorage, isHaveStorage } from '@/util/storage'
 
 export default {
   namespace: 'login',
@@ -14,7 +14,7 @@ export default {
       return state.set('token', action.token)
     },
     loginError (state) {
-      removeLocalStorage('token')
+      clearLocalStorage()
       return state.set('token', '')
     }
   },
@@ -22,8 +22,13 @@ export default {
     *loginRequest ({ name, password }, { put, call }) {
       try {
         yield put({ type: 'spin/loadingChange', loading: true })
-        const { data: { token } } = yield call(login, { name, password })
-        yield put({ type: 'loginSuccess', token })
+        if (!isHaveStorage('token')) {
+          const { data: { token } } = yield call(login, { name, password })
+          yield put({ type: 'loginSuccess', token })
+        }
+        yield [
+          yield put({ type: 'user/currentUserRequest' })
+        ]
         yield put(routerRedux.push('/'))
       } catch (error) {
         yield put({ type: 'loginError' })
