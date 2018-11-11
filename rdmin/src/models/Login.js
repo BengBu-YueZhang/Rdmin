@@ -3,6 +3,7 @@ import { Map } from 'immutable'
 export default {
   namespace: 'login',
   state: Map({
+    token: ''
   }),
   reducers: {
     loginSuccess (state) {
@@ -15,7 +16,7 @@ export default {
     }
   },
   effects: {
-    *loginRequest (payload, { put, call }) {
+    *loginRequest ({ name, password }, { put, call }) {
       try {
         yield put({ type: 'loginSuccess' })
       } catch (error) {

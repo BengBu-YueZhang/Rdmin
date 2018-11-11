@@ -14,7 +14,7 @@ class GlobalSpin extends React.Component {
   render () {
     const { loading } = this.props
     return (
-      <div className={style.root}>
+      loading && <div className={style.root}>
         <Spin spinning={loading} />
       </div>
     )
