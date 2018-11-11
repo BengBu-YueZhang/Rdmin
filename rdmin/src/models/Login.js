@@ -28,7 +28,6 @@ export default {
         yield [
           yield put({ type: 'user/currentUserRequest' })
         ]
-        // yield put(routerRedux.push('/'))
         yield put({ type: 'history/push', path: '/' })
       } catch (error) {
         yield put({ type: 'loginError' })
