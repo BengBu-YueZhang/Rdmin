@@ -9,4 +9,14 @@ const Axios = axios.create({
   },
 })
 
+Axios.interceptors.response.use(
+  (res) => {
+    const data = res.data
+    return data
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
 export default Axios

@@ -1,7 +1,10 @@
 import React from 'react'
 import { Router, Route, Switch, Redirect } from 'dva/router'
 import Login from '@/routes/Login'
+import Dashboard from '@/routes/Dashboard'
 import GlobalSpin from '@/components/GlobalSpin'
+import Layout from '@/components/Layout'
+
 
 function RouterConfig({ history }) {
   return (
@@ -10,7 +13,10 @@ function RouterConfig({ history }) {
       <Router history={history}>
         <Switch>
           <Route path="/login" component={Login} />
-          <Redirect from="/" to="/login" />
+          <Layout>
+            <Route path="/dashboard" component={Dashboard} />
+          </Layout>
+          <Redirect from="/" to="/dashboard" />
         </Switch>
       </Router>
     </div> 
