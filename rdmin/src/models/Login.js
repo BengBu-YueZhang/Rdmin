@@ -24,6 +24,7 @@ export default {
         yield put({ type: 'spin/loadingChange', loading: true })
         const { data: { token } } = yield call(login, { name, password })
         yield put({ type: 'loginSuccess', token })
+        yield put(routerRedux.push('/'))
       } catch (error) {
         yield put({ type: 'loginError' })
       } finally {

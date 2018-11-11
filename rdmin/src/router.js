@@ -14,9 +14,9 @@ function RouterConfig({ history }) {
         <Switch>
           <Route path="/login" component={Login} />
           <Layout>
-            <AuthorizedRoute path="/dashboard" component={Dashboard}/>
+            <Redirect from="/" to="/dashboard" />
+            <AuthorizedRoute requiresAuth={false} path="/dashboard" component={Dashboard}/>
           </Layout>
-          <Redirect from="/" to="/dashboard" />
         </Switch>
       </Router>
     </div> 

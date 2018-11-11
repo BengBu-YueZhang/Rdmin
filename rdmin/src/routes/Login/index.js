@@ -4,7 +4,6 @@ import { Input } from 'antd'
 import { Button } from 'antd'
 import { connect } from 'dva'
 
-
 class Login extends React.Component {
   constructor (props) {
     super(props)
