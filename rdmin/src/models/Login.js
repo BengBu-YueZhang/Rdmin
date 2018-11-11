@@ -1,6 +1,5 @@
 import { Map } from 'immutable'
 import { login } from '@/services'
-import { routerRedux } from 'dva/router'
 import { setLocalStorage, clearLocalStorage, isHaveStorage } from '@/util/storage'
 
 export default {
@@ -29,7 +28,8 @@ export default {
         yield [
           yield put({ type: 'user/currentUserRequest' })
         ]
-        yield put(routerRedux.push('/'))
+        // yield put(routerRedux.push('/'))
+        yield put({ type: 'history/push', path: '/' })
       } catch (error) {
         yield put({ type: 'loginError' })
       } finally {

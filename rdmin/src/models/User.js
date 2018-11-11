@@ -1,6 +1,5 @@
 import { Map, List } from 'immutable'
 import { currentUser } from '@/services'
-import modelExtend from 'dva-model-extend'
 import { setLocalStorage } from '@/util/storage'
 
 export default {
