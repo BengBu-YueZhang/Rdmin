@@ -4,7 +4,7 @@ import Login from '@/routes/Login'
 import Dashboard from '@/routes/Dashboard'
 import GlobalSpin from '@/components/GlobalSpin'
 import Layout from '@/components/Layout'
-
+import AuthorizedRoute from '@/components/AuthorizedRoute'
 
 function RouterConfig({ history }) {
   return (
@@ -14,7 +14,7 @@ function RouterConfig({ history }) {
         <Switch>
           <Route path="/login" component={Login} />
           <Layout>
-            <Route path="/dashboard" component={Dashboard} />
+            <AuthorizedRoute path="/dashboard" component={Dashboard}/>
           </Layout>
           <Redirect from="/" to="/dashboard" />
         </Switch>
