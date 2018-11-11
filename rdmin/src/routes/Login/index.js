@@ -15,7 +15,7 @@ class Login extends React.Component {
   }
 
   handleClick = () => {
-    this.props.dispatch({ type: 'login/loginError' })
+    this.props.dispatch({ type: 'login/loginRequest', ...this.state })
   }
 
   handleChange = (type, event) => {
