@@ -1,0 +1,4 @@
+:global(.m-b-5) { margin-bottom: 5px; }
+:global(.m-b-10) { margin-bottom: 10px; }
+
+:global(.w-per-100) { width: 100%; }

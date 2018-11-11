@@ -1,13 +1,19 @@
 import React from 'react'
-import { Router, Route, Switch } from 'dva/router'
+import { Router, Route, Switch, Redirect } from 'dva/router'
+import Login from '@/routes/Login'
+import GlobalSpin from '@/components/GlobalSpin'
 
 function RouterConfig({ history }) {
   return (
-    <Router history={history}>
-      <Switch>
-        {/* <Route path="/" exact component={IndexPage} /> */}
-      </Switch>
-    </Router>
+    <div>
+      <GlobalSpin/>
+      <Router history={history}>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Redirect from="/" to="/login" />
+        </Switch>
+      </Router>
+    </div> 
   )
 }
 
