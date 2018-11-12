@@ -2,10 +2,7 @@ import React from 'react'
 import style from '@/components/Breadcrumbs/style.scss'
 import { withRouter, Link } from 'react-router-dom'
 import { Breadcrumb } from 'antd'
-
-const breadcrumbNameMap = {
-  '/dashboard': '仪表盘'
-}
+import RouterMap from '@/config/router'
 
 class Breadcrumbs extends React.Component {
   render () {
@@ -16,7 +13,7 @@ class Breadcrumbs extends React.Component {
       return (
         <Breadcrumb.Item key={url}>
           <Link to={url}>
-            {breadcrumbNameMap[url]}
+            { RouterMap[url]['name'] }
           </Link>
         </Breadcrumb.Item>
       )
