@@ -5,6 +5,7 @@ import { setLocalStorage, clearLocalStorage, isHaveStorage } from '@/util/storag
 export default {
   namespace: 'login',
   state: Map({
+    // 登录用户的token
     token: ''
   }),
   reducers: {

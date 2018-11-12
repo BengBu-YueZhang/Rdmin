@@ -3,6 +3,7 @@ import { Map } from 'immutable'
 export default {
   namespace: 'spin',
   state: Map({
+    // 全局Spin状态
     loading: false
   }),
   reducers: {
