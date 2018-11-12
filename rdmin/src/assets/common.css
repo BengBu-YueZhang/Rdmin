@@ -2,3 +2,5 @@
 :global(.m-b-10) { margin-bottom: 10px; }
 
 :global(.w-per-100) { width: 100%; }
+
+:global(.p-0) { padding: 0 }
