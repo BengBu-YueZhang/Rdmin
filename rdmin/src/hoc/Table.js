@@ -1,41 +1,34 @@
 import React from 'react'
-import { Pagination } from 'antd'
 
-/**
- * 高阶组件 - 表格
- * 需要思考 🤔 如何封装 📦
- */
-function Table (TableComponent, PaginationComponent = Pagination) {
+function Table (TableComponent, selectData) {
   return class extends React.Component {
     constructor (props) {
       super(props)
-      // 根据filter初始化state
       this.state = {
-        pagesize: 10,
-        pagestart: 1
+        list: [],
+        total: 0,
+        filter: {}
       }
     }
 
     get = async () => {
+      const { data: { list, total } } = await this.selectData()
+      this.setState({ list, total })
     }
 
-    handlePageChange (page, pageSize) {
-    }
-
-    handlePageSizeChange (current, size) {
+    handleFilter = (filter) => {
+      this.setState((prevState) => {
+        return { filter: { ...prevState.filter, ...filter } }
+      }, this.get())
     }
 
     render () {
-      const { columns, data } = this.props
       return (
         <React.Fragment>
           <TableComponent
-            columns={columns}
-            dataSource={data}
-          />
-          <PaginationComponent
-            current={this.state.pagestart}
-            pageSize={this.state.pagesize}
+            total={this.state.total}
+            tableData={this.state.list}
+            onFilter={this.handleFilter}
           />
         </React.Fragment> 
       )

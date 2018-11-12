@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import { Route, Redirect } from 'dva/router'
 import { connect } from 'dva'
 import { getToken } from '@/selectors/Login'
+import { withRouter } from 'react-router-dom';
 
 /**
  * 权限认证, 首先对登录进行鉴权, 其次是用户所属的角色进行鉴权
+ * 关于connect后, router不更新的问题的解决方案: 👇 Saved my day!
+ * https://stackoverflow.com/questions/45056150/react-router-v4-not-working-with-redux
  */
 function authenticate (_this, requiresAuth, auths) {
   if (_this.props.token) {
@@ -31,7 +34,6 @@ const mapStateToProps = state => {
 }
 
 class AuthorizedRoute extends React.Component {
-
   render() {
     const { component: Component, requiresAuth, auths, ...rest } = this.props
     return (
@@ -47,7 +49,4 @@ class AuthorizedRoute extends React.Component {
   }
 }
 
-AuthorizedRoute.propTypes = {
-}
-
-export default connect(mapStateToProps)(AuthorizedRoute)
+export default withRouter(connect(mapStateToProps)(AuthorizedRoute))
