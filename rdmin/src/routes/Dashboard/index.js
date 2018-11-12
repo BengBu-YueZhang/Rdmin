@@ -1,8 +1,26 @@
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { Card } from 'antd'
+import { connect } from 'dva'
+import { getPostNumberStatistics, getReplyNumberStatistics } from '@/selectors/Dashboard'
+
+const mapStateToProps = state => {
+  return {
+    postNumberStatistics: getPostNumberStatistics(state),
+    replyNumberStatistics: getReplyNumberStatistics(state)
+  }
+}
 
 class Dashboard extends React.Component {
+
+  componentDidMount () {
+    this.initData()
+  }
+
+  initData = () => {
+    this.props.dispatch({ type: 'dashboard/postStatisticsRequest' })
+    this.props.dispatch({ type: 'dashboard/replyStatisticsRequest' })
+  }
 
   render () {
     return (
@@ -84,4 +102,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard
+export default connect(mapStateToProps)(Dashboard)

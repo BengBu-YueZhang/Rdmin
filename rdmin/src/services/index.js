@@ -24,3 +24,19 @@ export async function currentUser (params) {
     throw error
   }
 }
+
+export async function postStatistics () {
+  try {
+    return await axios.get(api.postStatistics)
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function replyStatistics () {
+  try {
+    return await axios.get(api.replyStatistics)
+  } catch (error) {
+    throw error
+  }
+}

@@ -14,8 +14,8 @@ class LayoutView extends React.Component {
         <Sider className={style.sider}>Sider</Sider>
         <Layout>
           <HeaderMenu/>
+          <Breadcrumbs/>
           <Content className={style.content}>
-            <Breadcrumbs/>
             {
               this.props.children
             }

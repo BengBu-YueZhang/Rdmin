@@ -2,5 +2,7 @@
 export default {
   login: '/user/login',
   logout: '/user/logout',
-  currentUser: '/user/current'
+  currentUser: '/user/current',
+  postStatistics: '/post/statistics',
+  replyStatistics: '/reply/statistics'
 }
