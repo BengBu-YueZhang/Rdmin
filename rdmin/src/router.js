@@ -12,10 +12,10 @@ function RouterConfig({ history }) {
       <GlobalSpin/>
       <Router history={history}>
         <Switch>
+          <Redirect from="/" to="/dashboard" exact />
           <Route path="/login" component={Login} />
           <Layout>
             <AuthorizedRoute requiresAuth={false} path="/dashboard" component={Dashboard}/>
-            <Redirect from="/" to="/dashboard" />
           </Layout>
         </Switch>
       </Router>

@@ -11,6 +11,7 @@ import { withRouter } from 'react-router-dom';
  * https://stackoverflow.com/questions/45056150/react-router-v4-not-working-with-redux
  */
 function authenticate (_this, requiresAuth, auths) {
+  console.log('token', _this.props)
   if (_this.props.token) {
     if (!requiresAuth) {
       return
@@ -49,4 +50,6 @@ class AuthorizedRoute extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(AuthorizedRoute))
+export default withRouter(
+  connect(mapStateToProps)(AuthorizedRoute)
+)

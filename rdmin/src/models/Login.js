@@ -1,6 +1,6 @@
 import { Map } from 'immutable'
 import { login } from '@/services'
-import { setLocalStorage, clearLocalStorage, isHaveStorage } from '@/util/storage'
+import { setLocalStorage, clearLocalStorage, isHaveStorage, getLocalStorage } from '@/util/storage'
 
 export default {
   namespace: 'login',
@@ -25,6 +25,8 @@ export default {
         if (!isHaveStorage('token')) {
           const { data: { token } } = yield call(login, { name, password })
           yield put({ type: 'loginSuccess', token })
+        } else {
+          yield put({ type: 'loginSuccess', token: getLocalStorage('token') })
         }
         yield [
           yield put({ type: 'user/currentUserRequest' })
