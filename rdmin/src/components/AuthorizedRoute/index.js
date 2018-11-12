@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Route, Redirect } from 'dva/router'
 import { connect } from 'dva'
 import { getToken } from '@/selectors/Login'
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 
 /**
  * 权限认证, 首先对登录进行鉴权, 其次是用户所属的角色进行鉴权

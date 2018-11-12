@@ -1,6 +1,7 @@
 import { Map } from 'immutable'
-import { login } from '@/services'
+import { login, logout } from '@/services'
 import { setLocalStorage, clearLocalStorage, isHaveStorage, getLocalStorage } from '@/util/storage'
+import { notification } from 'antd'
 
 export default {
   namespace: 'login',
@@ -15,6 +16,7 @@ export default {
     },
     loginError (state) {
       clearLocalStorage()
+      notification.error({ message: '登陆时发生错误, 请重试' })
       return state.set('token', '')
     }
   },
@@ -28,6 +30,8 @@ export default {
         } else {
           yield put({ type: 'loginSuccess', token: getLocalStorage('token') })
         }
+        // 准备系统必须的数据,
+        // 当前用户的权限信息
         yield [
           yield put({ type: 'user/currentUserRequest' })
         ]
@@ -38,7 +42,14 @@ export default {
         yield put({ type: 'spin/loadingChange', loading: false })
       }
     },
-    *logoutRequest () {
+    *logoutRequest (payload, { put, call }) {
+      try {
+        yield call(logout)
+        yield call(clearLocalStorage)
+        yield put({ type: 'history/push', path: '/login' })
+      } catch (error) {
+        notification.error({ message: '登出失败' })
+      }
     }
   }
 }
