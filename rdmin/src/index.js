@@ -6,7 +6,6 @@ import '@/assets/common.css'
 import LoginModel from '@/models/Login'
 import SpinModel from '@/models/Spin'
 import Dashboard from '@/models/Dashboard'
-import Auth from '@/models/Auth'
 import User from '@/models/User'
 import History from '@/models/History'
 
@@ -20,7 +19,6 @@ const app = dva()
 app.model(LoginModel)
 app.model(SpinModel)
 app.model(Dashboard)
-app.model(Auth)
 app.model(User)
 app.model(History)
 
