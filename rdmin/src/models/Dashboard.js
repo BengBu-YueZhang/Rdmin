@@ -12,13 +12,13 @@ export default {
   }),
   reducers: {
     postStatisticsSuccess (state, action) {
-      return state.set('postNumberStatistics', action.data)
+      return state.set('postNumberStatistics', List(action.data))
     },
     postStatisticsError (state) {
       return state.set('postNumberStatistics', List([]))
     },
     replyStatisticsSuccess (state, action) {
-      return state.set('replyNumberStatistics', action.data)
+      return state.set('replyNumberStatistics', List(action.data))
     },
     replyStatisticsError (state) {
       return state.set('postNumberStatistics', List([]))

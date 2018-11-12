@@ -23,6 +23,10 @@ class Dashboard extends React.Component {
   }
 
   render () {
+    let postCount = 0
+    let replyCount = 0
+    this.props.postNumberStatistics.forEach(p => postCount += p.count)
+    this.props.replyNumberStatistics.forEach(r => replyCount += r.count)
     return (
       <div>
         <div className="m-b-10">
@@ -65,7 +69,7 @@ class Dashboard extends React.Component {
                 },
                 series: [
                   {
-                    name:'访问来源',
+                    name: '发帖统计',
                     type:'pie',
                     radius: ['50%', '70%'],
                     avoidLabelOverlap: false,
@@ -88,8 +92,8 @@ class Dashboard extends React.Component {
                       }
                     },
                     data:[
-                      {value:335, name:'发帖'},
-                      {value:310, name:'回复'}
+                      {value: postCount, name:'发帖'},
+                      {value: replyCount, name:'回复'}
                     ]
                   }
                 ]
