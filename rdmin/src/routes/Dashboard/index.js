@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
       <div>
         <div className="m-b-10">
           <Card
-            title="访问量统计(最近7天)"
+            title="访问量统计(最近7天)(假数据, 还没有接口)"
             style={{ width: '100%' }}
           >
             <ReactEcharts
@@ -98,6 +98,28 @@ class Dashboard extends React.Component {
                   }
                 ]
               }}
+            />
+          </Card>
+        </div>
+        <div className="m-b-10">
+          <Card
+            title="用户注册数量(假接口)"
+            style={{ width: '100%' }}
+          >
+            <ReactEcharts
+              option={{
+                xAxis: {
+                  type: 'category',
+                  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                  type: 'value'
+                },
+                series: [{
+                  data: [120, 200, 150, 80, 70, 110, 130],
+                  type: 'bar'
+                }]
+            }}
             />
           </Card>
         </div>
