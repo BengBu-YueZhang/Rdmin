@@ -5,5 +5,17 @@ export default {
   currentUser: '/user/current',
   postStatistics: '/post/statistics',
   replyStatistics: '/reply/statistics',
-  userStatistics: '/user/statistics'
+  userStatistics: '/user/statistics',
+  // 权限列表
+  authList: '/auth/list',
+  // crud auth
+  auth: '/auth',
+  // 权限组
+  authGroup: '/auth/group',
+  // crud post
+  post: '/post',
+  // 用户列表
+  userList: '/user/list',
+  // crud user
+  user: '/user'
 }
