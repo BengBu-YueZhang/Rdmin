@@ -4,5 +4,6 @@ export default {
   logout: '/user/logout',
   currentUser: '/user/current',
   postStatistics: '/post/statistics',
-  replyStatistics: '/reply/statistics'
+  replyStatistics: '/reply/statistics',
+  userStatistics: '/user/statistics'
 }

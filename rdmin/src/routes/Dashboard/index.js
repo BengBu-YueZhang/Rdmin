@@ -2,12 +2,13 @@ import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { Card } from 'antd'
 import { connect } from 'dva'
-import { getPostNumberStatistics, getReplyNumberStatistics } from '@/selectors/Dashboard'
+import { getPostNumberStatistics, getReplyNumberStatistics, getUserNumberStatistics } from '@/selectors/Dashboard'
 
 const mapStateToProps = state => {
   return {
     postNumberStatistics: getPostNumberStatistics(state),
-    replyNumberStatistics: getReplyNumberStatistics(state)
+    replyNumberStatistics: getReplyNumberStatistics(state),
+    userNumberStatistics: getUserNumberStatistics(state)
   }
 }
 
@@ -20,37 +21,20 @@ class Dashboard extends React.Component {
   initData = () => {
     this.props.dispatch({ type: 'dashboard/postStatisticsRequest' })
     this.props.dispatch({ type: 'dashboard/replyStatisticsRequest' })
+    this.props.dispatch({ type: 'dashboard/userStatisticsRequest' })
   }
 
   render () {
+    // 发帖数量
     let postCount = 0
+    // 回复数量
     let replyCount = 0
+    let userX = this.props.userNumberStatistics.map(u => u.createdAt)
+    let userValue = this.props.userNumberStatistics.map(u => u.count)
     this.props.postNumberStatistics.forEach(p => postCount += p.count)
     this.props.replyNumberStatistics.forEach(r => replyCount += r.count)
     return (
       <div>
-        <div className="m-b-10">
-          <Card
-            title="访问量统计(最近7天)(假数据, 还没有接口)"
-            style={{ width: '100%' }}
-          >
-            <ReactEcharts
-              option={{
-                xAxis: {
-                    type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line'
-                }]
-              }}
-            />
-          </Card>
-        </div>
         <div className="m-b-10">
           <Card
             title="发帖量&回复量统计(最近7天)"
@@ -103,20 +87,20 @@ class Dashboard extends React.Component {
         </div>
         <div className="m-b-10">
           <Card
-            title="用户注册数量(假接口)"
+            title="用户注册数量"
             style={{ width: '100%' }}
           >
             <ReactEcharts
               option={{
                 xAxis: {
                   type: 'category',
-                  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                  data: userX.toJS()
                 },
                 yAxis: {
                   type: 'value'
                 },
                 series: [{
-                  data: [120, 200, 150, 80, 70, 110, 130],
+                  data: userValue.toJS(),
                   type: 'bar'
                 }]
             }}

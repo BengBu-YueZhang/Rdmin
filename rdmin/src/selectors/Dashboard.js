@@ -9,3 +9,8 @@ export const getReplyNumberStatistics = createSelector(
   [state => state['dashboard'].get('replyNumberStatistics')],
   replyNumberStatistics => replyNumberStatistics
 )
+
+export const getUserNumberStatistics = createSelector(
+  [state => state['dashboard'].get('userNumberStatistics')],
+  userNumberStatistics => userNumberStatistics
+)

@@ -40,3 +40,11 @@ export async function replyStatistics () {
     throw error
   }
 }
+
+export async function userStatistics () {
+  try {
+    return await axios.get(api.userStatistics)
+  } catch (error) {
+    throw error
+  }
+}
