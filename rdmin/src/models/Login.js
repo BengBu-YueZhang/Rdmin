@@ -35,7 +35,7 @@ export default {
         yield [
           yield put({ type: 'user/currentUserRequest' })
         ]
-        yield put({ type: 'history/push', path: '/' })
+        yield put({ type: 'history/push', path: '/upload' })
       } catch (error) {
         yield put({ type: 'loginError' })
       } finally {
