@@ -1,6 +1,7 @@
 import React from 'react'
 import style from '@/routes/FileUpLoad/style.scss'
 import { Icon } from 'antd'
+import uuidv1 from 'uuid/v1'
 
 class FileUpLoad extends React.Component {
 
@@ -59,10 +60,17 @@ class FileUpLoad extends React.Component {
   handleDrop = (event) => {
     event.preventDefault()
     event.stopPropagation()
+    let files = event.dataTransfer.files
+    for (let i = 0; i < files.length; i++) {
+      files[i].uuid = uuidv1()
+    }
     this.setState((prevState) => {
       return {
         isDragover: false,
-        files: [...prevState.files, ...event.dataTransfer.files]
+        files: [
+          ...prevState.files,
+          ...files
+        ]
       }
     })
   }
@@ -70,11 +78,21 @@ class FileUpLoad extends React.Component {
   handleFileChange = (event) => {
     event.preventDefault()
     event.stopPropagation()
+    for (let i = 0; i < this.inputFileRef.current.files.length; i++) {
+      this.inputFileRef.current.files[i].uuid = uuidv1()
+    }
     this.setState((prevState) => {
       return {
-        files: [...prevState.files, ...this.inputFileRef.current.files]
+        files: [
+          ...prevState.files,
+          ...this.inputFileRef.current.files
+        ]
       }
     })
+  }
+
+  handleImageLoad = (event) => {
+    console.log(event)
   }
 
   render () {
@@ -111,6 +129,22 @@ class FileUpLoad extends React.Component {
             />
             <strong>选择文件</strong>
             <span className="box__dragndrop">或拖拽文件到这里</span>
+            {/* 预览图片 */}
+            <div className={style['preview-wrapper']}>
+              {
+                this.state.files.map(file => {
+                  return (
+                    <div key={file.uuid} className={style['preview']}>
+                      <img
+                        onLoad={() => this.handleImageLoad}
+                        className={style['preview-image']}
+                        src={window.URL.createObjectURL(file)}
+                      />
+                    </div>
+                  )
+                })
+              }
+            </div>
           </label>
         </form>
       </div>
