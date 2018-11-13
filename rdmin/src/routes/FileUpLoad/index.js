@@ -2,6 +2,7 @@ import React from 'react'
 import style from '@/routes/FileUpLoad/style.scss'
 import { Icon } from 'antd'
 import uuidv1 from 'uuid/v1'
+import axios from 'axios'
 
 class FileUpLoad extends React.Component {
 
@@ -38,7 +39,6 @@ class FileUpLoad extends React.Component {
     this.setState({
       isDragover: true
     })
-    
   }
 
   handleDragLeave = (event) => {
@@ -67,11 +67,10 @@ class FileUpLoad extends React.Component {
     this.setState((prevState) => {
       return {
         isDragover: false,
-        files: [
-          ...prevState.files,
-          ...files
-        ]
+        files: [ ...prevState.files, ...files ]
       }
+    }, () => {
+      this.handleSumbit()
     })
   }
 
@@ -83,16 +82,27 @@ class FileUpLoad extends React.Component {
     }
     this.setState((prevState) => {
       return {
-        files: [
-          ...prevState.files,
-          ...this.inputFileRef.current.files
-        ]
+        files: [ ...prevState.files, ...this.inputFileRef.current.files]
       }
+    }, () => {
+      this.handleSumbit()
     })
   }
 
-  handleImageLoad = (event) => {
-    console.log(event)
+  handleImageLoad = (imgSrc) => {
+    window.URL.revokeObjectURL(imgSrc)
+  }
+
+  handleSumbit = () => {
+    for (let i = 0; i < this.state.files.length; i++) {
+      let formData = new FormData()
+      formData.append('file', this.state.files[0])
+      axios.post('https://api.justdodo.cn/upload/others', formData, {
+        headers: {
+          vf: 'zhangyuegogogo'
+        }
+      })
+    }
   }
 
   render () {
@@ -115,9 +125,7 @@ class FileUpLoad extends React.Component {
             onChange={this.handleFileChange}
             className={style['input-file']}
             type="file"
-            name="files[]"
             id="file"
-            data-multiple-caption="{count} files selected"
             multiple
           />
           <label
@@ -133,12 +141,13 @@ class FileUpLoad extends React.Component {
             <div className={style['preview-wrapper']}>
               {
                 this.state.files.map(file => {
+                  const imgSrc = window.URL.createObjectURL(file)
                   return (
                     <div key={file.uuid} className={style['preview']}>
                       <img
-                        onLoad={() => this.handleImageLoad}
+                        onLoad={() => this.handleImageLoad(imgSrc)}
                         className={style['preview-image']}
-                        src={window.URL.createObjectURL(file)}
+                        src={imgSrc}
                       />
                     </div>
                   )
