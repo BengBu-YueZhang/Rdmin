@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-// import axios from '@/util/axios'
+// import axios from 'axios'
+import axios from '@/util/axios'
 import style from './style.scss'
 import { Icon, notification } from 'antd'
 
@@ -111,14 +111,12 @@ class Rpload extends React.Component {
       let guids = this.uploadingQueue.map(f => f.guid)
       if (guids.indexOf(current.guid) < 0) {
         this.uploadingQueue = [...this.uploadingQueue, current]
+        let uploadFile = new FormData()
+        uploadFile.append('file', current)
+        console.log(uploadFile)
         axios.post(
-          'http://127.0.0.1:3000/upload',
-          new FormData().append('file', current),
-          {
-            headers: {
-              vf: 'zhangyuegogogo'
-            }
-          }
+          url,
+          uploadFile
         ).then(_ => {
           this.setState(prevState => {
             current.success = true
