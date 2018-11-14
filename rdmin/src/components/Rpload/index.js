@@ -183,7 +183,7 @@ class Rpload extends React.Component {
   }
 
   render () {
-    const { multiple, bar } = this.props
+    const { multiple } = this.props
     return (
       <div className={style.wrapper}>
         <div className={style.root}>
@@ -254,7 +254,6 @@ Rpload.propTypes = {
   url: PropTypes.string.isRequired,
   cq: PropTypes.number,
   multiple: PropTypes.bool,
-  bar: PropTypes.bool,
   maxSize: PropTypes.number,
   maxLength: PropTypes.number,
   suffixs: PropTypes.array
@@ -266,7 +265,6 @@ Rpload.defaultProps = {
   onError: () => { return true },
   cq: 3,
   multiple: false,
-  bar: false,
   maxSize: 1024,
   maxLength: 5,
   suffixs: []
