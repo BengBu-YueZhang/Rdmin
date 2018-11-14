@@ -4,7 +4,7 @@
   min-height: 200px;
   height: auto;
   border: 1px solid #ccc;
-  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 .form {
@@ -13,6 +13,7 @@
   right: 0;
   top: 0;
   bottom: 0;
+  box-sizing: border-box;
 }
 
 .content {
@@ -34,4 +35,44 @@
   justify-items: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+
+.uploadlist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+  background-color: #fff;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.uploadlist:hover {
+  background-color: #b3e5fc;
+}
+
+.left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center
+}
+
+.text {
+  margin: 0 0 0 10px;
+}
+
+.success-icon {
+  color: #aed581;
+}
+
+.error-icon {
+  color: #f4511e;
 }

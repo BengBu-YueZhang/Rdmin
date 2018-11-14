@@ -15,8 +15,7 @@ class Rpload extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      // 以上传的文件
-      // 上传成功的文件
+      // 上传的文件列表, 无论上传还是失败，success字段会表示文件是否上传成功
       files: [],
       isDragover: false
     }
@@ -68,7 +67,7 @@ class Rpload extends React.Component {
     event.preventDefault()
     event.stopPropagation()
     let files = event.dataTransfer.files
-    if (files.length > maxLength || this.state.files + files.length > maxLength) {
+    if (this.state.files + files.length > maxLength) {
       notification.error({ message: `超过最大上传文件数` })
       return
     }
@@ -88,7 +87,7 @@ class Rpload extends React.Component {
     event.preventDefault()
     event.stopPropagation()
     let files = this.inputRef.current.files
-    if (files.length > maxLength || this.state.files + files.length > maxLength) {
+    if (this.state.files + files.length > maxLength) {
       notification.error({ message: `超过最大上传文件数` })
       return
     }
@@ -108,8 +107,9 @@ class Rpload extends React.Component {
     for (let i = 0; i < this.uploadQueue.length; i++) {
       // 避免重复的上传
       let current = this.uploadQueue[i]
-      if (this.uploadingQueue.indexOf(current.guid) < 0) {
-        this.uploadingQueue = [...this.uploadingQueue, current.guid]
+      let guids = this.uploadingQueue.map(f => f.guid)
+      if (guids.indexOf(current.guid) < 0) {
+        this.uploadingQueue = [...this.uploadingQueue, current]
         axios.post(
           'https://api.justdodo.cn/upload/others',
           new FormData().append('file', current),
@@ -120,19 +120,27 @@ class Rpload extends React.Component {
           }
         ).then(_ => {
           this.setState(prevState => {
+            current.success = true
             return {
               files: [...prevState.files, current]
             }
           }, () => {
             notification.success({ message: `${current.name}, 上传成功` })
-            if (onLeave(current)) {
-              this.uploadQueue = this.uploadQueue.filter(f => f.guid !== current.guid)
-              this.processQueue()
-            }
+            onLeave(_)
+            this.uploadQueue = this.uploadQueue.filter(f => f.guid !== current.guid)
+            this.processQueue()
           })
         }).catch(_ => {
-          notification.error({ message: `${current.name}, 上传失败` })
-          onError(_)
+          this.setState(prevState => {
+            current.success = false
+            return {
+              files: [...prevState.files, current]
+            }
+          }, () => {
+            notification.error({ message: `${current.name}, 上传失败` })
+            onError(_)
+            this.uploadQueue = this.uploadQueue.filter(f => f.guid !== current.guid)
+          })
         })
       }
     }
@@ -166,44 +174,74 @@ class Rpload extends React.Component {
     return names[names.length - 1]
   }
 
+  handleCloseClick = (guid) => {
+    this.setState(prevState => {
+      return {
+        files: prevState.files.filter(f => f.guid !== guid)
+      }
+    })
+  }
+
   render () {
     const { multiple, bar } = this.props
     return (
-      <div className={style.root}>
-        <form
-          className={style.form}
-          method="post"
-          action=""
-          encType="multipart/form-data"
-          onDrag={this.handleDrag}
-          onDragStart={this.hanldeDragStart}
-          onDragEnd={this.handleDragEnd}
-          onDragOver={this.handleDragOver}
-          onDragEnter={this.handleDragEnter}
-          onDragLeave={this.handleDragLeave}
-          onDrop={this.handleDrop}
-        >
-          <input
-            ref={this.inputRef}
-            onChange={this.handleFileChange}
-            style={{'display': 'none'}}
-            type="file"
-            id="file"
-            multiple={multiple}
-          />
-          <label
-            className={style.content}
-            htmlFor="file">
-            <Icon
-              className={style.icon}
-              type="plus"
+      <div className={style.wrapper}>
+        <div className={style.root}>
+          <form
+            className={style.form}
+            method="post"
+            action=""
+            encType="multipart/form-data"
+            onDrag={this.handleDrag}
+            onDragStart={this.hanldeDragStart}
+            onDragEnd={this.handleDragEnd}
+            onDragOver={this.handleDragOver}
+            onDragEnter={this.handleDragEnter}
+            onDragLeave={this.handleDragLeave}
+            onDrop={this.handleDrop}
+          >
+            <input
+              ref={this.inputRef}
+              onChange={this.handleFileChange}
+              style={{'display': 'none'}}
+              type="file"
+              id="file"
+              multiple={multiple}
             />
-            <p>
-              <strong>选择文件</strong>
-              <span>或拖拽文件到这里</span>
-            </p>
-          </label>
-        </form>
+            <label
+              className={style.content}
+              htmlFor="file">
+              <Icon
+                className={style.icon}
+                type="plus"
+              />
+              <p>
+                <strong>选择文件</strong>
+                <span>或拖拽文件到这里</span>
+              </p>
+            </label>
+          </form> 
+        </div>
+        {/* 上传列表 */}
+        {
+          this.state.files.map(file => {
+            return (
+              <div key={file.guid}>
+                <div className={style.uploadlist}>
+                  <div className={style.left}>
+                    { 
+                      file.success ? <Icon type="check-circle" className={style['success-icon']} /> : <Icon type="exclamation-circle" className={style['error-icon']} />
+                    }
+                    <p className={style.text}>{ file.name }</p>
+                  </div>
+                  <div className={style.right}>
+                    <Icon type="close" onClick={this.handleCloseClick.bind(this, file.guid)} />
+                  </div>
+                </div>
+              </div>
+            )
+          })
+        }
       </div>
     )
   }
@@ -226,11 +264,11 @@ Rpload.defaultProps = {
   onEnter: () => { return true },
   onLeave: () => { return true },
   onError: () => { return true },
-  cq: 1,
+  cq: 3,
   multiple: false,
   bar: false,
   maxSize: 1024,
-  maxLength: 1,
+  maxLength: 5,
   suffixs: []
 }
 
