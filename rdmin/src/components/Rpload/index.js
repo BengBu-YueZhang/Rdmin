@@ -104,7 +104,7 @@ class Rpload extends React.Component {
   }
 
   sumbit = async () => {
-    const { onLeave, onError, url } = this.props
+    const { onLeave, onError, url, type } = this.props
     for (let i = 0; i < this.uploadQueue.length; i++) {
       // 避免重复的上传
       let current = this.uploadQueue[i]
@@ -113,10 +113,14 @@ class Rpload extends React.Component {
         this.uploadingQueue = [...this.uploadingQueue, current]
         let uploadFile = new FormData()
         uploadFile.append('file', current)
-        console.log(uploadFile)
         axios.post(
-          url,
-          uploadFile
+          `${url}`,
+          uploadFile,
+          {
+            headers: {
+              params: type
+            }
+          }
         ).then(_ => {
           this.setState(prevState => {
             current.success = true
@@ -255,7 +259,9 @@ Rpload.propTypes = {
   multiple: PropTypes.bool,
   maxSize: PropTypes.number,
   maxLength: PropTypes.number,
-  suffixs: PropTypes.array
+  suffixs: PropTypes.array,
+  // 默认上传文件夹
+  type: PropTypes.string
 }
 
 Rpload.defaultProps = {
@@ -266,9 +272,8 @@ Rpload.defaultProps = {
   multiple: false,
   maxSize: 1024,
   maxLength: 5,
-  suffixs: []
+  suffixs: [],
+  type: 'default'
 }
-
-
 
 export default Rpload
