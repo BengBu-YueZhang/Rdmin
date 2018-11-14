@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+// import axios from '@/util/axios'
 import style from './style.scss'
 import { Icon, notification } from 'antd'
 
@@ -103,7 +104,7 @@ class Rpload extends React.Component {
   }
 
   sumbit = async () => {
-    const { onLeave, onError } = this.props
+    const { onLeave, onError, url } = this.props
     for (let i = 0; i < this.uploadQueue.length; i++) {
       // 避免重复的上传
       let current = this.uploadQueue[i]
@@ -111,7 +112,7 @@ class Rpload extends React.Component {
       if (guids.indexOf(current.guid) < 0) {
         this.uploadingQueue = [...this.uploadingQueue, current]
         axios.post(
-          'https://api.justdodo.cn/upload/others',
+          'http://127.0.0.1:3000/upload',
           new FormData().append('file', current),
           {
             headers: {

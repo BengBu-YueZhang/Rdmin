@@ -17,5 +17,7 @@ export default {
   // 用户列表
   userList: '/user/list',
   // crud user
-  user: '/user'
+  user: '/user',
+  // 上传文件
+  upload: '/upload'
 }

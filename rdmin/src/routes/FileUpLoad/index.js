@@ -8,6 +8,7 @@ class FileUpLoad extends React.Component {
       <div>
         <Rpload
           multiple={true}
+          url="/upload"
         />
       </div>
     )
