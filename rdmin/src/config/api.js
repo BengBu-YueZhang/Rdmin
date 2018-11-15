@@ -8,16 +8,18 @@ export default {
   userStatistics: '/user/statistics',
   // 权限列表
   authList: '/auth/list',
-  // crud auth
-  auth: '/auth',
-  // 权限组
-  authGroup: '/auth/group',
-  // crud post
-  post: '/post',
+  // 角色列表
+  roleList: '/role/list',
   // 用户列表
   userList: '/user/list',
+  // 权限组
+  authGroup: '/auth/group',
+  // crud auth
+  auth: '/auth',
   // crud user
   user: '/user',
-  // 上传文件
-  upload: '/upload'
+  // crud post
+  post: '/post',
+  // crud role
+  role: '/role'
 }
