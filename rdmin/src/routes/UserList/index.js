@@ -2,34 +2,38 @@ import React from 'react'
 import withTable from '@/hoc/withTable'
 import { userList } from '@/services'
 import { Button, Table, Divider, Tag, Input, DatePicker, Row, Col } from 'antd'
+import { Map } from 'immutable'
 
 const columns = [
   {
     title: '姓名',
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'name'
   },
   {
     title: '角色',
-    dataIndex: 'roles',
-    key: 'roles',
-    render: () => null
-  },
-  {
-    title: '创建日期',
-    dataIndex: 'createDate',
-    key: 'createDate',
-    render: () => null
+    render: (text) => {
+      return (
+        <React.Fragment>
+          {
+            text.roles.map(role => {
+              return (
+                <Tag key={role.id} color="blue">
+                  { role.name }
+                </Tag>
+              )
+            })
+          } 
+        </React.Fragment>
+      )
+    } 
   },
   {
     title: '操作',
-    key: 'action',
-    render: (text, record) => {
-      console.log(text)
-      console.log(record)
+    render: (text) => {
       return (
         <div>
           <Button>编辑</Button>
+          <Divider type="vertical"/>
           <Button type="danger">删除</Button>
         </div>
       )
@@ -50,8 +54,26 @@ class UserList extends React.Component {
     }
   }
 
+  componentDidMount () {
+    this.handleFilter()
+  }
+
+  handleFilter = () => {
+    const { onFilter } = this.props
+    onFilter(this.state.filter)
+  }
+
+  handleNameChange = (e) => {
+    const name = e.target.value
+    this.setState(prevState => {
+      return {
+        filter: { ...prevState.filter, name }
+      }
+    })
+  }
+
   render () {
-    const { tableData } = this.props
+    const { tableData, total } = this.props
     return (
       <div>
         <Row className="m-b-20">
@@ -59,6 +81,9 @@ class UserList extends React.Component {
             <Input.Search
               placeholder="用户姓名"
               enterButton
+              onChange={this.handleNameChange}
+              onSearch={this.handleFilter}
+              value={this.state.filter.name}
             />
           </Col>
           <Col span={1}></Col>
@@ -69,6 +94,11 @@ class UserList extends React.Component {
         <Table
           columns={columns}
           dataSource={tableData}
+          rowKey="id"
+          pagination={{
+            current: this.state.filter.pagestart,
+            total: total
+          }}
         />
       </div>
     )

@@ -12,14 +12,14 @@ function Table (TableComponent, selectData) {
     }
 
     get = async () => {
-      const { data: { list, total } } = await this.selectData()
+      const { data: { list, total } } = await selectData(this.state.filter)
       this.setState({ list, total })
     }
 
     handleFilter = (filter) => {
       this.setState((prevState) => {
         return { filter: { ...prevState.filter, ...filter } }
-      }, this.get())
+      }, this.get)
     }
 
     render () {
