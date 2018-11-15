@@ -2,7 +2,7 @@ import React from 'react'
 import withTable from '@/hoc/withTable'
 import { userList } from '@/services'
 import { Button, Table, Divider, Tag, Input, DatePicker, Row, Col } from 'antd'
-import { Map } from 'immutable'
+import UserModal from './components/userModal'
 
 const columns = [
   {
@@ -49,8 +49,11 @@ class UserList extends React.Component {
         pagestart: 1,
         pagesize: 10,
         name: '',
-        createDate: ''
-      }
+        startAt: '',
+        endAt: ''
+      },
+      visible: false,
+      confirmLoading: false,
     }
   }
 
@@ -72,6 +75,28 @@ class UserList extends React.Component {
     })
   }
 
+  handleRangeDateChange = (range) => {
+    let startAt = range[0] ? range[0].toDate() : ''
+    let endAt = range[1] ? range[1].toDate() : ''
+    this.setState(prevState => {
+      return {
+        filter: { ...prevState.filter, startAt, endAt }
+      }
+    }, this.handleFilter)
+  }
+
+  handleOk = () => {
+  }
+
+  handleCancel = () => {
+  }
+
+  handleVisibleChange = (visible) => {
+    this.setState({
+      visible
+    })
+  }
+
   render () {
     const { tableData, total } = this.props
     return (
@@ -88,7 +113,16 @@ class UserList extends React.Component {
           </Col>
           <Col span={1}></Col>
           <Col span={6}>
-            <DatePicker.RangePicker/>
+            <DatePicker.RangePicker
+              onChange={this.handleRangeDateChange}
+            />
+          </Col>
+          <Col span={11}>
+            <div className="t-right">
+              <Button onClick={
+                this.handleVisibleChange.bind(this, true)
+              }>创建用户</Button>
+            </div>
           </Col>
         </Row>
         <Table
@@ -99,6 +133,12 @@ class UserList extends React.Component {
             current: this.state.filter.pagestart,
             total: total
           }}
+        />
+        <UserModal
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          confirmLoading={this.state.confirmLoading}
+          onCancel={this.handleCancel}
         />
       </div>
     )

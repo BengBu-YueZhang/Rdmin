@@ -5,3 +5,5 @@
 :global(.w-per-100) { width: 100%; }
 
 :global(.p-0) { padding: 0 }
+:global(.t-left) { text-align: left }
+:global(.t-right) { text-align: right }

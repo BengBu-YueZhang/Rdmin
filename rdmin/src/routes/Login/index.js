@@ -3,6 +3,7 @@ import style from '@/routes/Login/style.scss'
 import { Input } from 'antd'
 import { Button } from 'antd'
 import { connect } from 'dva'
+import { isHaveStorage } from '@/util/storage'
 
 class Login extends React.Component {
   constructor (props) {
@@ -10,6 +11,12 @@ class Login extends React.Component {
     this.state = {
       name: '',
       password: ''
+    }
+  }
+
+  componentDidMount () {
+    if (isHaveStorage('token')) {
+      this.handleClick()
     }
   }
 
