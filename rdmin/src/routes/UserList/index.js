@@ -1,6 +1,6 @@
 import React from 'react'
 import withTable from '@/hoc/withTable'
-import { userList } from '@/services'
+import { userList, createUser } from '@/services'
 import { Button, Table, Divider, Tag, Input, DatePicker, Row, Col } from 'antd'
 import UserModal from './components/userModal'
 
@@ -85,15 +85,26 @@ class UserList extends React.Component {
     }, this.handleFilter)
   }
 
-  handleOk = () => {
+  handleOk = async (user) => {
+    try {
+      await this.handleVisibleChange(true, true)
+      await createUser(user)
+      await this.handleFilter()
+    } finally {
+      await this.handleVisibleChange(false, false)
+    }
   }
 
   handleCancel = () => {
+    this.handleVisibleChange(false)
   }
 
-  handleVisibleChange = (visible) => {
-    this.setState({
-      visible
+  handleVisibleChange = (visible = false, confirmLoading = false) => {
+    return new Promise((resolve) => {
+      this.setState({
+        visible,
+        confirmLoading
+      }, resolve)
     })
   }
 
@@ -120,7 +131,7 @@ class UserList extends React.Component {
           <Col span={11}>
             <div className="t-right">
               <Button onClick={
-                this.handleVisibleChange.bind(this, true)
+                this.handleVisibleChange.bind(this, true, false)
               }>创建用户</Button>
             </div>
           </Col>

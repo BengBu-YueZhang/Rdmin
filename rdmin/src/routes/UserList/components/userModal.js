@@ -39,9 +39,13 @@ class UserModal extends React.Component {
   }
 
   handleOk = () => {
+    const { onOk } = this.props
+    onOk(this.state)
   }
 
   handleCancel = () => {
+    const { onCancel } = this.props
+    onCancel()
   }
 
   render () {

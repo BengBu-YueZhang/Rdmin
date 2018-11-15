@@ -71,6 +71,14 @@ export async function userList (params) {
   }
 }
 
+export async function createUser (params) {
+  try {
+    return await axios.post(api.user, params)
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function authList (params) {
   try {
     return await axios.get(api.authList, { params })
