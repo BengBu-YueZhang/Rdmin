@@ -68,7 +68,7 @@ class Rpload extends React.Component {
     event.preventDefault()
     event.stopPropagation()
     let files = event.dataTransfer.files
-    if (this.state.files + files.length > maxLength) {
+    if (this.state.files.length + files.length > maxLength) {
       notification.error({ message: `超过最大上传文件数` })
       return
     }
@@ -88,7 +88,7 @@ class Rpload extends React.Component {
     event.preventDefault()
     event.stopPropagation()
     let files = this.inputRef.current.files
-    if (this.state.files + files.length > maxLength) {
+    if (this.state.files.length + files.length > maxLength) {
       notification.error({ message: `超过最大上传文件数` })
       return
     }
