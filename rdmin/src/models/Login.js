@@ -33,7 +33,8 @@ export default {
         // 准备系统必须的数据,
         // 当前用户的权限信息
         yield [
-          yield put({ type: 'user/currentUserRequest' })
+          yield put({ type: 'user/currentUserRequest' }),
+          yield put({ type: 'role/rolesRequest' })
         ]
         yield put({ type: 'history/push', path: '/user_list' })
       } catch (error) {

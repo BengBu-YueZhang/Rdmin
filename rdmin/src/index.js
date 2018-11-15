@@ -8,6 +8,7 @@ import SpinModel from '@/models/Spin'
 import Dashboard from '@/models/Dashboard'
 import User from '@/models/User'
 import History from '@/models/History'
+import Role from '@/models/Role'
 
 // 1. Initialize
 const app = dva()
@@ -21,6 +22,7 @@ app.model(SpinModel)
 app.model(Dashboard)
 app.model(User)
 app.model(History)
+app.model(Role)
 
 // 4. Router
 app.router(require('./router').default)

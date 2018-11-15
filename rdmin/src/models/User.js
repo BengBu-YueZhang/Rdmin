@@ -5,8 +5,7 @@ import { setLocalStorage } from '@/util/storage'
 export default {
   namespace: 'user',
   state: Map({
-    currentUser: Map({}),
-    list: List([])
+    currentUser: Map({})
   }),
   reducers: {
     currentUserSuccess (state, action) {
@@ -15,17 +14,9 @@ export default {
     },
     currentUserError (state) {
       return state.set('currentUser', {})
-    },
-    listSuccess (state, action) {
-      return state.set('list', action.data)
-    },
-    listError (state) {
-      return state.set('list', [])
     }
   },
   effects: {
-    *listRequest ({ pagesize, pagestart }, { put, call }) {
-    },
     *currentUserRequest (payload, { put, call }) {
       try {
         const { data } = yield call(currentUser)
